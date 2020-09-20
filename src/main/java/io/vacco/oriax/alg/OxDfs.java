@@ -8,22 +8,23 @@ import java.util.function.Consumer;
 
 public class OxDfs {
 
-  public static <T> void apply(OxVtx<T> v, OxGrph<T> g, Set<OxVtx<T>> visited,
-                               Consumer<OxVtx<T>> preCn, Consumer<OxVtx<T>> postCn) {
+  public static <K, T> void apply(OxVtx<K, T> v, OxGrph<K, T> g, Set<OxVtx<K, T>> visited,
+                               Consumer<OxVtx<K, T>> preConsumer, Consumer<OxVtx<K, T>> postConsumer) {
     if (!visited.contains(v)) {
       visited.add(v);
-      if (preCn != null) preCn.accept(v);
+      if (preConsumer != null) preConsumer.accept(v);
       g.edg.stream()
           .filter(e -> e.src.equals(v)).map(e -> e.dst)
-          .forEach(ev -> apply(ev, g, visited, preCn, postCn));
-      if (postCn != null) postCn.accept(v);
+          .forEach(ev -> apply(ev, g, visited, preConsumer, postConsumer));
+      if (postConsumer != null) postConsumer.accept(v);
     }
   }
 
-  public static <T> void apply(OxGrph<T> graph, Consumer<OxVtx<T>> preCn, Consumer<OxVtx<T>> postCn) {
-    Set<OxVtx<T>> visited = new HashSet<>();
-    for (OxVtx<T> vtx : graph.vtx) {
-      apply(vtx, graph, visited, preCn, postCn);
+  public static <K, T> void apply(OxGrph<K, T> graph, Consumer<OxVtx<K, T>> preConsumer,
+                                  Consumer<OxVtx<K, T>> postConsumer) {
+    Set<OxVtx<K, T>> visited = new HashSet<>();
+    for (OxVtx<K, T> vtx : graph.vtx) {
+      apply(vtx, graph, visited, preConsumer, postConsumer);
     }
   }
 }
