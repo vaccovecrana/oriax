@@ -6,7 +6,7 @@ import io.vacco.oriax.core.OxVtx;
 import java.util.*;
 
 /**
- * <a href="https://www.cs.princeton.edu/courses/archive/fall12/cos226/lectures/42DirectedGraphs.pdf" />
+ * <a href="https://www.cs.princeton.edu/courses/archive/fall12/cos226/lectures/42DirectedGraphs.pdf">42DirectedGraphs.pdf</a>
  */
 public class OxKos {
 
