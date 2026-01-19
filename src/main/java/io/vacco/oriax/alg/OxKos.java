@@ -22,11 +22,12 @@ public class OxKos {
     for (OxVtx<K, T> vtx : rpo) {
       if (!visited.contains(vtx)) {
         OxDfs.apply(vtx, g, visited,
-            v0 -> levels.computeIfAbsent(count[0], c -> new ArrayList<>()).add(v0), null
+          v0 -> levels.computeIfAbsent(count[0], c -> new ArrayList<>()).add(v0), null
         );
         count[0] = count[0] + 1;
       }
     }
     return levels;
   }
+
 }

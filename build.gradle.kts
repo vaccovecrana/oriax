@@ -1,7 +1,7 @@
-plugins { id("io.vacco.oss.gitflow") version "0.9.8" }
+plugins { id("io.vacco.oss.gitflow") version "1.8.3" }
 
 group = "io.vacco.oriax"
-version = "0.1.1"
+version = "0.4.0"
 
 configure<io.vacco.oss.gitflow.GsPluginProfileExtension> {
   addJ8Spec()

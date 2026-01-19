@@ -1,6 +1,8 @@
 package io.vacco.oriax.util;
 
-import io.vacco.oriax.core.*;
+import io.vacco.oriax.core.OxEdg;
+import io.vacco.oriax.core.OxGrph;
+import io.vacco.oriax.core.OxVtx;
 
 public class OxTgf {
 

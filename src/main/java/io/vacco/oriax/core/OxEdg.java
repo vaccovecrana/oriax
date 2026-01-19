@@ -26,17 +26,24 @@ public class OxEdg<K, T> implements Comparable<OxEdg<K, T>> {
     return String.format("%s%s", this.src.id, this.dst.id);
   }
 
-  @Override public int compareTo(OxEdg<K, T> tEdg) {
+  @Override
+  public int compareTo(OxEdg<K, T> tEdg) {
     return id().compareTo(tEdg.id());
   }
 
-  @Override public boolean equals(Object o) {
+  @Override
+  public boolean equals(Object o) {
     return o instanceof OxEdg && this.id().equals(((OxEdg<?, ?>) o).id());
   }
 
-  @Override public int hashCode() { return id().hashCode(); }
+  @Override
+  public int hashCode() {
+    return id().hashCode();
+  }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return String.format("[%s -%s-> %s]", src.id, label != null ? label : "", dst.id);
   }
+
 }

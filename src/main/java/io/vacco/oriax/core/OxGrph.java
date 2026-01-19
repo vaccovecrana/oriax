@@ -1,7 +1,10 @@
 package io.vacco.oriax.core;
 
-import java.util.*;
-import static java.util.stream.Collectors.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
+import static java.util.stream.Collectors.toList;
 
 public class OxGrph<K, T> {
 
@@ -22,4 +25,5 @@ public class OxGrph<K, T> {
     g0.edg.addAll(this.edg.stream().map(OxEdg::reverse).collect(toList()));
     return g0;
   }
+
 }
