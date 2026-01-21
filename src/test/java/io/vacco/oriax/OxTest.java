@@ -119,8 +119,8 @@ public class OxTest {
       it("Can output to TGF", () -> out.println(OxTgf.apply(g1)));
 
       it("Verifies TGF still works with groups", () -> {
-        var tv0 = new OxVtx<Integer, Integer>().set(0, 0).label("Zero").group("TestGroup");
-        var tv1 = new OxVtx<Integer, Integer>().set(1, 1).label("One").group("TestGroup");
+        var tv0 = new OxVtx<Integer, Integer>().set(0, 0).label("Zero").group0("TestGroup");
+        var tv1 = new OxVtx<Integer, Integer>().set(1, 1).label("One").group0("TestGroup");
 
         OxGrph<Integer, Integer> gt = new OxGrph<>();
         gt.edge(tv0, tv1);
@@ -145,11 +145,11 @@ public class OxTest {
       it("Can render graph with groups", () -> {
         OxGrph<Integer, Integer> g2 = new OxGrph<>();
 
-        var gv0 = new OxVtx<Integer, Integer>().set(0, 0).label("Zero").group("Core");
-        var gv1 = new OxVtx<Integer, Integer>().set(1, 1).label("One").group("Core");
-        var gv2 = new OxVtx<Integer, Integer>().set(2, 2).label("Two").group("Core");
-        var gv3 = new OxVtx<Integer, Integer>().set(3, 3).label("Three").group("Peripheral");
-        var gv4 = new OxVtx<Integer, Integer>().set(4, 4).label("Four").group("Peripheral");
+        var gv0 = new OxVtx<Integer, Integer>().set(0, 0).label("Zero").group0("Core");
+        var gv1 = new OxVtx<Integer, Integer>().set(1, 1).label("One").group0("Core");
+        var gv2 = new OxVtx<Integer, Integer>().set(2, 2).label("Two").group0("Core");
+        var gv3 = new OxVtx<Integer, Integer>().set(3, 3).label("Three").group0("Peripheral");
+        var gv4 = new OxVtx<Integer, Integer>().set(4, 4).label("Four").group0("Peripheral");
         var gv5 = new OxVtx<Integer, Integer>().set(5, 5).label("Five");
 
         g2.edge(gv0, gv1).edge(gv1, gv2)
@@ -182,6 +182,36 @@ public class OxTest {
         assertNotNull(mmd);
         assertTrue(mmd.contains("|init|"));
         assertTrue(mmd.contains("|finalize|"));
+      });
+
+      it("Can render nested groups with group1 as parent", () -> {
+        var g4 = new OxGrph<Integer, Integer>();
+
+        var nv0 = new OxVtx<Integer, Integer>().set(0, 0).label("Backend-API-1").group1("Backend").group0("API");
+        var nv1 = new OxVtx<Integer, Integer>().set(1, 1).label("Backend-API-2").group1("Backend").group0("API");
+        var nv2 = new OxVtx<Integer, Integer>().set(2, 2).label("Backend-DB-1").group1("Backend").group0("Database");
+        var nv3 = new OxVtx<Integer, Integer>().set(3, 3).label("Backend-DB-2").group1("Backend").group0("Database");
+        var nv4 = new OxVtx<Integer, Integer>().set(4, 4).label("Frontend-UI-1").group1("Frontend").group0("UI");
+        var nv5 = new OxVtx<Integer, Integer>().set(5, 5).label("Frontend-UI-2").group1("Frontend").group0("UI");
+        var nv6 = new OxVtx<Integer, Integer>().set(6, 6).label("Frontend-Logic").group1("Frontend");
+        var nv7 = new OxVtx<Integer, Integer>().set(7, 7).label("Standalone").group0("Utils");
+        var nv8 = new OxVtx<Integer, Integer>().set(8, 8).label("Orphan");
+
+        g4.edge(nv4, nv0).edge(nv5, nv1)
+          .edge(nv0, nv2).edge(nv1, nv3)
+          .edge(nv6, nv4).edge(nv6, nv5)
+          .edge(nv7, nv0).edge(nv8, nv4);
+
+        out.println("\n=== Mermaid with nested groups (group1 as parent) ===");
+        var mmd = OxMmd.apply(g4);
+        out.println(mmd);
+        assertNotNull(mmd);
+        assertTrue(mmd.contains("subgraph Backend"));
+        assertTrue(mmd.contains("subgraph Frontend"));
+        assertTrue(mmd.contains("subgraph API"));
+        assertTrue(mmd.contains("subgraph Database"));
+        assertTrue(mmd.contains("subgraph UI"));
+        assertTrue(mmd.contains("subgraph Utils"));
       });
     });
 

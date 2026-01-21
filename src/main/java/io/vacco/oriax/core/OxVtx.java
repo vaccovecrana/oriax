@@ -8,7 +8,7 @@ public class OxVtx<K, T> {
   public K id;
   public T data;
   public String label;
-  public String group;
+  public String g0, g1; // group hints for Mermaid diagrams
 
   public OxVtx<K, T> set(K id, T data) {
     this.id = requireNonNull(id);
@@ -21,8 +21,13 @@ public class OxVtx<K, T> {
     return this;
   }
 
-  public OxVtx<K, T> group(String group) {
-    this.group = requireNonNull(group);
+  public OxVtx<K, T> group0(String group0) {
+    this.g0 = requireNonNull(group0);
+    return this;
+  }
+
+  public OxVtx<K, T> group1(String group1) {
+    this.g1 = requireNonNull(group1);
     return this;
   }
 
