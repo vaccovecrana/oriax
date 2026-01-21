@@ -14,12 +14,16 @@ public class OxMmd {
     return id.replaceAll("[^a-zA-Z0-9_]", "_");
   }
 
+  private static void renderVertex(StringBuilder sb, OxVtx<?, ?> vtx) {
+    if (vtx.label != null) {
+      sb.append("([").append(vtx.label).append("])");
+    }
+  }
+
   private static void renderEntry(StringBuilder sb, Map.Entry<String, List<OxVtx<?, ?>>> g0Entry) {
     for (var vtx : g0Entry.getValue()) {
       sb.append("        ").append(sanitizeId(vtx.id.toString()));
-      if (vtx.label != null) {
-        sb.append("(").append(vtx.label).append(")");
-      }
+      renderVertex(sb, vtx);
       sb.append("\n");
     }
   }
@@ -49,9 +53,7 @@ public class OxMmd {
 
     for (var vtx : noGroup) {
       sb.append("    ").append(sanitizeId(vtx.id.toString()));
-      if (vtx.label != null) {
-        sb.append("(").append(vtx.label).append(")");
-      }
+      renderVertex(sb, vtx);
       sb.append("\n");
     }
 
@@ -67,7 +69,6 @@ public class OxMmd {
       var group1Id = sanitizeId(g1Entry.getKey());
       sb.append("    \n");
       sb.append("    subgraph ").append(group1Id).append(" [").append(g1Entry.getKey()).append("]\n");
-
       for (var g0Entry : g1Entry.getValue().entrySet()) {
         if (g0Entry.getKey().isEmpty()) {
           renderEntry(sb, g0Entry);
@@ -77,15 +78,12 @@ public class OxMmd {
           sb.append("        subgraph ").append(group0Id).append(" [").append(g0Entry.getKey()).append("]\n");
           for (var vtx : g0Entry.getValue()) {
             sb.append("            ").append(sanitizeId(vtx.id.toString()));
-            if (vtx.label != null) {
-              sb.append("(").append(vtx.label).append(")");
-            }
+            renderVertex(sb, vtx);
             sb.append("\n");
           }
           sb.append("        end\n");
         }
       }
-
       sb.append("    end\n");
     }
 
