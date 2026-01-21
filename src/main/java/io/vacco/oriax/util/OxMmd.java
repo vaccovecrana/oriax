@@ -1,13 +1,11 @@
 package io.vacco.oriax.util;
 
-import io.vacco.oriax.core.OxEdg;
 import io.vacco.oriax.core.OxGrph;
 import io.vacco.oriax.core.OxVtx;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OxMmd {
 
@@ -16,13 +14,13 @@ public class OxMmd {
   }
 
   public static String apply(OxGrph<?, ?> g) {
-    StringBuilder sb = new StringBuilder();
+    var sb = new StringBuilder();
     sb.append("flowchart TD\n");
 
-    Map<String, List<OxVtx<?, ?>>> grouped = new LinkedHashMap<>();
-    List<OxVtx<?, ?>> ungrouped = new ArrayList<>();
+    var grouped = new LinkedHashMap<String, List<OxVtx<?, ?>>>();
+    var ungrouped = new ArrayList<OxVtx<?, ?>>();
 
-    for (OxVtx<?, ?> vtx : g.vtx) {
+    for (var vtx : g.vtx) {
       if (vtx.group != null) {
         grouped.computeIfAbsent(vtx.group, k -> new ArrayList<>()).add(vtx);
       } else {
@@ -30,7 +28,7 @@ public class OxMmd {
       }
     }
 
-    for (OxVtx<?, ?> vtx : ungrouped) {
+    for (var vtx : ungrouped) {
       sb.append("    ").append(sanitizeId(vtx.id.toString()));
       if (vtx.label != null) {
         sb.append("[").append(vtx.label).append("]");
@@ -38,11 +36,11 @@ public class OxMmd {
       sb.append("\n");
     }
 
-    for (Map.Entry<String, List<OxVtx<?, ?>>> entry : grouped.entrySet()) {
-      String groupId = sanitizeId(entry.getKey());
+    for (var entry : grouped.entrySet()) {
+      var groupId = sanitizeId(entry.getKey());
       sb.append("    \n");
       sb.append("    subgraph ").append(groupId).append(" [").append(entry.getKey()).append("]\n");
-      for (OxVtx<?, ?> vtx : entry.getValue()) {
+      for (var vtx : entry.getValue()) {
         sb.append("        ").append(sanitizeId(vtx.id.toString()));
         if (vtx.label != null) {
           sb.append("[").append(vtx.label).append("]");
@@ -53,7 +51,7 @@ public class OxMmd {
     }
 
     sb.append("    \n");
-    for (OxEdg<?, ?> e : g.edg) {
+    for (var e : g.edg) {
       sb.append("    ").append(sanitizeId(e.src.id.toString()));
       sb.append(" -->");
       if (e.label != null) {

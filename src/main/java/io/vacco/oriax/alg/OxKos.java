@@ -11,18 +11,20 @@ import java.util.*;
 public class OxKos {
 
   public static <K, T> Map<Integer, List<OxVtx<K, T>>> apply(OxGrph<K, T> g) {
-    List<OxVtx<K, T>> rpo = new ArrayList<>();
+    var rpo = new ArrayList<OxVtx<K, T>>();
     OxDfs.apply(g.reverse(), null, rpo::add);
     Collections.reverse(rpo);
 
     final int[] count = {0};
-    Set<OxVtx<K, T>> visited = new HashSet<>();
-    Map<Integer, List<OxVtx<K, T>>> levels = new HashMap<>();
+    var visited = new HashSet<OxVtx<K, T>>();
+    var levels = new HashMap<Integer, List<OxVtx<K, T>>>();
 
-    for (OxVtx<K, T> vtx : rpo) {
+    for (var vtx : rpo) {
       if (!visited.contains(vtx)) {
         OxDfs.apply(vtx, g, visited,
-          v0 -> levels.computeIfAbsent(count[0], c -> new ArrayList<>()).add(v0), null
+          v0 -> levels
+            .computeIfAbsent(count[0], c -> new ArrayList<>())
+            .add(v0), null
         );
         count[0] = count[0] + 1;
       }

@@ -11,9 +11,6 @@ import j8spec.annotation.DefinedOrder;
 import j8spec.junit.J8SpecRunner;
 import org.junit.runner.RunWith;
 
-import java.io.PrintStream;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -23,51 +20,51 @@ import static org.junit.Assert.*;
 
 @DefinedOrder
 @RunWith(J8SpecRunner.class)
-public class OxSpec {
+public class OxTest {
 
   static {
 
-    PrintStream out = System.out;
+    var out = System.out;
 
-    OxVtx<Integer, Integer> v0 = new OxVtx<>(0, 0).withLabel("Zero");
-    OxVtx<Integer, Integer> v1 = new OxVtx<>(1, 1).withLabel("One");
-    OxVtx<Integer, Integer> v2 = new OxVtx<>(2, 2).withLabel("Two");
-    OxVtx<Integer, Integer> v3 = new OxVtx<>(3, 3).withLabel("Three");
-    OxVtx<Integer, Integer> v4 = new OxVtx<>(4, 4).withLabel("Four");
-    OxVtx<Integer, Integer> v5 = new OxVtx<>(5, 5);
-    OxVtx<Integer, Integer> v6 = new OxVtx<>(6, 6);
-    OxVtx<Integer, Integer> v7 = new OxVtx<>(7, 7);
-    OxVtx<Integer, Integer> v8 = new OxVtx<>(8, 8);
-    OxVtx<Integer, Integer> v9 = new OxVtx<>(9, 9);
-    OxVtx<Integer, Integer> v10 = new OxVtx<>(10, 10);
-    OxVtx<Integer, Integer> v11 = new OxVtx<>(11, 11);
-    OxVtx<Integer, Integer> v12 = new OxVtx<>(12, 12);
+    var v0 = new OxVtx<Integer, Integer>().set(0, 0).label("Zero");
+    var v1 = new OxVtx<Integer, Integer>().set(1, 1).label("One");
+    var v2 = new OxVtx<Integer, Integer>().set(2, 2).label("Two");
+    var v3 = new OxVtx<Integer, Integer>().set(3, 3).label("Three");
+    var v4 = new OxVtx<Integer, Integer>().set(4, 4).label("Four");
+    var v5 = new OxVtx<Integer, Integer>().set(5, 5);
+    var v6 = new OxVtx<Integer, Integer>().set(6, 6);
+    var v7 = new OxVtx<Integer, Integer>().set(7, 7);
+    var v8 = new OxVtx<Integer, Integer>().set(8, 8);
+    var v9 = new OxVtx<Integer, Integer>().set(9, 9);
+    var v10 = new OxVtx<Integer, Integer>().set(10, 10);
+    var v11 = new OxVtx<Integer, Integer>().set(11, 11);
+    var v12 = new OxVtx<Integer, Integer>().set(12, 12);
 
     assertNotEquals(v0, v1);
     out.println(v0.equals(999));
 
-    OxGrph<Integer, Integer> g1 = new OxGrph<>();
-    g1.addEdge(v0, v1).addEdge(v0, v5)
-      .addEdge(v2, v0).addEdge(v2, v3)
-      .addEdge(v3, v2).addEdge(v3, v5)
-      .addEdge(v4, v2).addEdge(v4, v3)
-      .addEdge(v5, v4)
-      .addEdge(v6, v0).addEdge(v6, v4).addEdge(v6, v8).addEdge(v6, v9)
-      .addEdge(v7, v6).addEdge(v7, v9)
-      .addEdge(v8, v6)
-      .addEdge(v9, v10).addEdge(v9, v11)
-      .addEdge(v10, v12)
-      .addEdge(v11, v12).addEdge(v11, v4)
-      .addEdge(v12, v9);
+    var g1 = new OxGrph<Integer, Integer>();
+    g1.edge(v0, v1).edge(v0, v5)
+      .edge(v2, v0).edge(v2, v3)
+      .edge(v3, v2).edge(v3, v5)
+      .edge(v4, v2).edge(v4, v3)
+      .edge(v5, v4)
+      .edge(v6, v0).edge(v6, v4).edge(v6, v8).edge(v6, v9)
+      .edge(v7, v6).edge(v7, v9)
+      .edge(v8, v6)
+      .edge(v9, v10).edge(v9, v11)
+      .edge(v10, v12)
+      .edge(v11, v12).edge(v11, v4)
+      .edge(v12, v9);
 
-    List<OxEdg<Integer, Integer>> edges = g1.edg.stream().toList();
+    var edges = g1.edg.stream().toList();
     assertEquals(edges.get(0), edges.get(0));
     assertNotEquals(edges.get(0), edges.get(1));
 
     out.println(edges.get(0).hashCode());
     out.println(edges.get(0).equals(999));
 
-    g1.edg.iterator().next().withLabel("Test");
+    g1.edg.iterator().next().label("Test");
 
     describe("Graph dependency traversal", () -> {
       it("Can find strongly connected nodes (Kosaraju-Sharir)", () -> {
@@ -78,18 +75,18 @@ public class OxSpec {
         OxDfs.apply(
           g1.reverse(),
           v -> {
-            String sep = IntStream.range(0, level[0]).mapToObj(i -> " ").collect(Collectors.joining(""));
+            var sep = IntStream.range(0, level[0]).mapToObj(i -> " ").collect(Collectors.joining(""));
             out.printf("%sdfs(%s)%n", sep, v.id);
             level[0] = level[0] + 1;
           },
           v -> {
-            String sep = IntStream.range(0, level[0]).mapToObj(i -> " ").collect(Collectors.joining(""));
+            var sep = IntStream.range(0, level[0]).mapToObj(i -> " ").collect(Collectors.joining(""));
             out.printf("%s%s done%n", sep, v.id);
             level[0] = level[0] - 1;
           }
         );
 
-        Map<Integer, List<OxVtx<Integer, Integer>>> levels = OxKos.apply(g1);
+        var levels = OxKos.apply(g1);
         levels.forEach((key, value) -> out.printf("%s => %s%n", key, value));
 
         assertEquals(1, levels.get(0).size());
@@ -122,11 +119,11 @@ public class OxSpec {
       it("Can output to TGF", () -> out.println(OxTgf.apply(g1)));
 
       it("Verifies TGF still works with groups", () -> {
-        OxVtx<Integer, Integer> tv0 = new OxVtx<>(0, 0).withLabel("Zero").withGroup("TestGroup");
-        OxVtx<Integer, Integer> tv1 = new OxVtx<>(1, 1).withLabel("One").withGroup("TestGroup");
+        var tv0 = new OxVtx<Integer, Integer>().set(0, 0).label("Zero").group("TestGroup");
+        var tv1 = new OxVtx<Integer, Integer>().set(1, 1).label("One").group("TestGroup");
 
         OxGrph<Integer, Integer> gt = new OxGrph<>();
-        gt.addEdge(tv0, tv1);
+        gt.edge(tv0, tv1);
 
         out.println("\n=== TGF with groups (should ignore groups) ===");
         String tgf = OxTgf.apply(gt);
@@ -148,19 +145,19 @@ public class OxSpec {
       it("Can render graph with groups", () -> {
         OxGrph<Integer, Integer> g2 = new OxGrph<>();
 
-        OxVtx<Integer, Integer> gv0 = new OxVtx<>(0, 0).withLabel("Zero").withGroup("Core");
-        OxVtx<Integer, Integer> gv1 = new OxVtx<>(1, 1).withLabel("One").withGroup("Core");
-        OxVtx<Integer, Integer> gv2 = new OxVtx<>(2, 2).withLabel("Two").withGroup("Core");
-        OxVtx<Integer, Integer> gv3 = new OxVtx<>(3, 3).withLabel("Three").withGroup("Peripheral");
-        OxVtx<Integer, Integer> gv4 = new OxVtx<>(4, 4).withLabel("Four").withGroup("Peripheral");
-        OxVtx<Integer, Integer> gv5 = new OxVtx<>(5, 5).withLabel("Five");
+        var gv0 = new OxVtx<Integer, Integer>().set(0, 0).label("Zero").group("Core");
+        var gv1 = new OxVtx<Integer, Integer>().set(1, 1).label("One").group("Core");
+        var gv2 = new OxVtx<Integer, Integer>().set(2, 2).label("Two").group("Core");
+        var gv3 = new OxVtx<Integer, Integer>().set(3, 3).label("Three").group("Peripheral");
+        var gv4 = new OxVtx<Integer, Integer>().set(4, 4).label("Four").group("Peripheral");
+        var gv5 = new OxVtx<Integer, Integer>().set(5, 5).label("Five");
 
-        g2.addEdge(gv0, gv1).addEdge(gv1, gv2)
-          .addEdge(gv2, gv3).addEdge(gv3, gv4)
-          .addEdge(gv4, gv5).addEdge(gv5, gv0);
+        g2.edge(gv0, gv1).edge(gv1, gv2)
+          .edge(gv2, gv3).edge(gv3, gv4)
+          .edge(gv4, gv5).edge(gv5, gv0);
 
         out.println("\n=== Mermaid with groups ===");
-        String mmd = OxMmd.apply(g2);
+        var mmd = OxMmd.apply(g2);
         out.println(mmd);
         assertNotNull(mmd);
         assertTrue(mmd.contains("subgraph Core"));
@@ -168,19 +165,19 @@ public class OxSpec {
       });
 
       it("Can render edges with labels", () -> {
-        OxGrph<Integer, Integer> g3 = new OxGrph<>();
+        var g3 = new OxGrph<Integer, Integer>();
 
-        OxVtx<Integer, Integer> ev0 = new OxVtx<>(0, 0).withLabel("Start");
-        OxVtx<Integer, Integer> ev1 = new OxVtx<>(1, 1).withLabel("Middle");
-        OxVtx<Integer, Integer> ev2 = new OxVtx<>(2, 2).withLabel("End");
+        var ev0 = new OxVtx<Integer, Integer>().set(0, 0).label("Start");
+        var ev1 = new OxVtx<Integer, Integer>().set(1, 1).label("Middle");
+        var ev2 = new OxVtx<Integer, Integer>().set(2, 2).label("End");
 
-        g3.addEdge(ev0, ev1);
-        g3.addEdge(ev1, ev2);
-        g3.edg.stream().filter(e -> e.src.equals(ev0)).findFirst().get().withLabel("init");
-        g3.edg.stream().filter(e -> e.src.equals(ev1)).findFirst().get().withLabel("finalize");
+        g3.edge(ev0, ev1);
+        g3.edge(ev1, ev2);
+        g3.edg.stream().filter(e -> e.src.equals(ev0)).findFirst().get().label("init");
+        g3.edg.stream().filter(e -> e.src.equals(ev1)).findFirst().get().label("finalize");
 
         out.println("\n=== Mermaid with edge labels ===");
-        String mmd = OxMmd.apply(g3);
+        var mmd = OxMmd.apply(g3);
         out.println(mmd);
         assertNotNull(mmd);
         assertTrue(mmd.contains("|init|"));

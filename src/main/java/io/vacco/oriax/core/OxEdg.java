@@ -4,20 +4,21 @@ import static java.util.Objects.requireNonNull;
 
 public class OxEdg<K, T> implements Comparable<OxEdg<K, T>> {
 
-  public final OxVtx<K, T> src;
-  public final OxVtx<K, T> dst;
+  public OxVtx<K, T> src;
+  public OxVtx<K, T> dst;
   public String label;
 
-  public OxEdg(OxVtx<K, T> src, OxVtx<K, T> dst) {
+  public OxEdg<K, T> set(OxVtx<K, T> src, OxVtx<K, T> dst) {
     this.src = requireNonNull(src);
     this.dst = requireNonNull(dst);
+    return this;
   }
 
   public OxEdg<K, T> reverse() {
-    return new OxEdg<>(dst, src);
+    return new OxEdg<K, T>().set(dst, src);
   }
 
-  public OxEdg<K, T> withLabel(String label) {
+  public OxEdg<K, T> label(String label) {
     this.label = requireNonNull(label);
     return this;
   }

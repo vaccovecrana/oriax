@@ -9,8 +9,10 @@ import java.util.function.Consumer;
 
 public class OxDfs {
 
-  public static <K, T> void apply(OxVtx<K, T> v, OxGrph<K, T> g, Set<OxVtx<K, T>> visited,
-                                  Consumer<OxVtx<K, T>> preConsumer, Consumer<OxVtx<K, T>> postConsumer) {
+  public static <K, T> void apply(OxVtx<K, T> v, OxGrph<K, T> g,
+                                  Set<OxVtx<K, T>> visited,
+                                  Consumer<OxVtx<K, T>> preConsumer,
+                                  Consumer<OxVtx<K, T>> postConsumer) {
     if (!visited.contains(v)) {
       visited.add(v);
       if (preConsumer != null) preConsumer.accept(v);
@@ -21,10 +23,11 @@ public class OxDfs {
     }
   }
 
-  public static <K, T> void apply(OxGrph<K, T> graph, Consumer<OxVtx<K, T>> preConsumer,
+  public static <K, T> void apply(OxGrph<K, T> graph,
+                                  Consumer<OxVtx<K, T>> preConsumer,
                                   Consumer<OxVtx<K, T>> postConsumer) {
-    Set<OxVtx<K, T>> visited = new HashSet<>();
-    for (OxVtx<K, T> vtx : graph.vtx) {
+    var visited = new HashSet<OxVtx<K, T>>();
+    for (var vtx : graph.vtx) {
       apply(vtx, graph, visited, preConsumer, postConsumer);
     }
   }
