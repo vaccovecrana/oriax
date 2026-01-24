@@ -171,14 +171,14 @@ public class OxTest {
         var ev1 = new OxVtx<Integer, Integer>().set(1, 1).label("Middle");
         var ev2 = new OxVtx<Integer, Integer>().set(2, 2).label("End");
 
-        g3.edge(ev0, ev1, null, "init");
+        g3.edge(ev0, ev1, null, "init<0> : init<1>");
         g3.edge(ev1, ev2, null, "finalize");
 
         out.println("\n=== Mermaid with edge labels ===");
         var mmd = OxMmd.apply(g3);
         out.println(mmd);
         assertNotNull(mmd);
-        assertTrue(mmd.contains("|init|"));
+        assertTrue(mmd.contains("|init<0> : init<1>|"));
         assertTrue(mmd.contains("|finalize|"));
       });
 
