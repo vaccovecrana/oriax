@@ -11,12 +11,17 @@ public class OxGrph<K, T> {
   public Set<OxVtx<K, T>> vtx = new LinkedHashSet<>();
   public Set<OxEdg<K, T>> edg = new TreeSet<>();
 
-  public OxGrph<K, T> edge(OxVtx<K, T> from, OxVtx<K, T> to) {
+  public OxGrph<K, T> edge(OxVtx<K, T> from, OxVtx<K, T> to, String id, String label) {
     this.vtx.add(from);
     this.vtx.add(to);
-    var e = new OxEdg<K, T>().set(from, to);
+    var e = new OxEdg<K, T>().label(label).set(from, to);
+    e = id != null ? e.id(id) : e;
     edg.add(e);
     return this;
+  }
+
+  public OxGrph<K, T> edge(OxVtx<K, T> from, OxVtx<K, T> to) {
+    return edge(from, to, null, null);
   }
 
   public OxGrph<K, T> reverse() {

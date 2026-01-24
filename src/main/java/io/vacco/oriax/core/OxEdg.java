@@ -6,11 +6,12 @@ public class OxEdg<K, T> implements Comparable<OxEdg<K, T>> {
 
   public OxVtx<K, T> src;
   public OxVtx<K, T> dst;
-  public String label;
+  public String id, label;
 
   public OxEdg<K, T> set(OxVtx<K, T> src, OxVtx<K, T> dst) {
     this.src = requireNonNull(src);
     this.dst = requireNonNull(dst);
+    this.id = String.format("%s%s", this.src.id, this.dst.id);
     return this;
   }
 
@@ -18,28 +19,29 @@ public class OxEdg<K, T> implements Comparable<OxEdg<K, T>> {
     return new OxEdg<K, T>().set(dst, src);
   }
 
-  public OxEdg<K, T> label(String label) {
-    this.label = requireNonNull(label);
+  public OxEdg<K, T> id(String id) {
+    this.id = requireNonNull(id);
     return this;
   }
 
-  private String id() {
-    return String.format("%s%s", this.src.id, this.dst.id);
+  public OxEdg<K, T> label(String label) {
+    this.label = label;
+    return this;
   }
 
   @Override
   public int compareTo(OxEdg<K, T> tEdg) {
-    return id().compareTo(tEdg.id());
+    return id.compareTo(tEdg.id);
   }
 
   @Override
   public boolean equals(Object o) {
-    return o instanceof OxEdg && this.id().equals(((OxEdg<?, ?>) o).id());
+    return o instanceof OxEdg && this.id.equals(((OxEdg<?, ?>) o).id);
   }
 
   @Override
   public int hashCode() {
-    return id().hashCode();
+    return id.hashCode();
   }
 
   @Override

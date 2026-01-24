@@ -171,10 +171,8 @@ public class OxTest {
         var ev1 = new OxVtx<Integer, Integer>().set(1, 1).label("Middle");
         var ev2 = new OxVtx<Integer, Integer>().set(2, 2).label("End");
 
-        g3.edge(ev0, ev1);
-        g3.edge(ev1, ev2);
-        g3.edg.stream().filter(e -> e.src.equals(ev0)).findFirst().get().label("init");
-        g3.edg.stream().filter(e -> e.src.equals(ev1)).findFirst().get().label("finalize");
+        g3.edge(ev0, ev1, null, "init");
+        g3.edge(ev1, ev2, null, "finalize");
 
         out.println("\n=== Mermaid with edge labels ===");
         var mmd = OxMmd.apply(g3);

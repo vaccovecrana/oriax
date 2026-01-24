@@ -7,8 +7,7 @@ public class OxVtx<K, T> {
 
   public K id;
   public T data;
-  public String label;
-  public String g0, g1; // group hints for Mermaid diagrams
+  public String label, g0, g1; // label + group hints for Mermaid diagrams
 
   public OxVtx<K, T> set(K id, T data) {
     this.id = requireNonNull(id);
