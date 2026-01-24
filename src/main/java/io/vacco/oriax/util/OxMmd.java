@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class OxMmd {
 
-  private static String sanitizeId(String id) {
+  private static String sanitizeText(String id) {
     return id.replaceAll("[^a-zA-Z0-9_]", "_");
   }
 
@@ -22,7 +22,7 @@ public class OxMmd {
 
   private static void renderEntry(StringBuilder sb, Map.Entry<String, List<OxVtx<?, ?>>> g0Entry) {
     for (var vtx : g0Entry.getValue()) {
-      sb.append("        ").append(sanitizeId(vtx.id.toString()));
+      sb.append("        ").append(sanitizeText(vtx.id.toString()));
       renderVertex(sb, vtx);
       sb.append("\n");
     }
@@ -52,13 +52,13 @@ public class OxMmd {
     }
 
     for (var vtx : noGroup) {
-      sb.append("    ").append(sanitizeId(vtx.id.toString()));
+      sb.append("    ").append(sanitizeText(vtx.id.toString()));
       renderVertex(sb, vtx);
       sb.append("\n");
     }
 
     for (var entry : group0.entrySet()) {
-      var groupId = sanitizeId(entry.getKey());
+      var groupId = sanitizeText(entry.getKey());
       sb.append("    \n");
       sb.append("    subgraph ").append(groupId).append(" [").append(entry.getKey()).append("]\n");
       renderEntry(sb, entry);
@@ -66,18 +66,18 @@ public class OxMmd {
     }
 
     for (var g1Entry : group1.entrySet()) {
-      var group1Id = sanitizeId(g1Entry.getKey());
+      var group1Id = sanitizeText(g1Entry.getKey());
       sb.append("    \n");
       sb.append("    subgraph ").append(group1Id).append(" [").append(g1Entry.getKey()).append("]\n");
       for (var g0Entry : g1Entry.getValue().entrySet()) {
         if (g0Entry.getKey().isEmpty()) {
           renderEntry(sb, g0Entry);
         } else {
-          var group0Id = sanitizeId(g0Entry.getKey());
+          var group0Id = sanitizeText(g0Entry.getKey());
           sb.append("        \n");
           sb.append("        subgraph ").append(group0Id).append(" [").append(g0Entry.getKey()).append("]\n");
           for (var vtx : g0Entry.getValue()) {
-            sb.append("            ").append(sanitizeId(vtx.id.toString()));
+            sb.append("            ").append(sanitizeText(vtx.id.toString()));
             renderVertex(sb, vtx);
             sb.append("\n");
           }
@@ -89,12 +89,12 @@ public class OxMmd {
 
     sb.append("    \n");
     for (var e : g.edg) {
-      sb.append("    ").append(sanitizeId(e.src.id.toString()));
+      sb.append("    ").append(sanitizeText(e.src.id.toString()));
       sb.append(" -->");
       if (e.label != null) {
-        sb.append("|").append(e.label).append("|");
+        sb.append("|").append(sanitizeText(e.label)).append("|");
       }
-      sb.append(" ").append(sanitizeId(e.dst.id.toString()));
+      sb.append(" ").append(sanitizeText(e.dst.id.toString()));
       sb.append("\n");
     }
 
