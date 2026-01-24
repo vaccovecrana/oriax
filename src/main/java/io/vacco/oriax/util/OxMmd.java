@@ -11,7 +11,7 @@ import java.util.Map;
 public class OxMmd {
 
   private static String sanitizeText(String id) {
-    return id.replaceAll("[^a-zA-Z0-9_<>: ]", "_");
+    return id.replaceAll("[^a-zA-Z0-9._<>: ]", "_");
   }
 
   private static void renderVertex(StringBuilder sb, OxVtx<?, ?> vtx) {
