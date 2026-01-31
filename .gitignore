@@ -3,3 +3,8 @@
 /build/
 /gradle/
 gradlew*
+
+.classpath
+.project
+.settings
+bin/

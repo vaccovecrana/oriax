@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 public class OxEdg<K, T> implements Comparable<OxEdg<K, T>> {
 
-  public OxVtx<K, T> src;
-  public OxVtx<K, T> dst;
+  public OxVtx<K, T> src, dst;
+  public Object srcData, dstData;
   public String id, label;
 
   public OxEdg<K, T> set(OxVtx<K, T> src, OxVtx<K, T> dst) {
@@ -26,6 +26,16 @@ public class OxEdg<K, T> implements Comparable<OxEdg<K, T>> {
 
   public OxEdg<K, T> label(String label) {
     this.label = label;
+    return this;
+  }
+
+  public OxEdg<K, T> srcData(Object srcData) {
+    this.srcData = requireNonNull(srcData);
+    return this;
+  }
+
+  public OxEdg<K, T> dstData(Object dstData) {
+    this.dstData = requireNonNull(dstData);
     return this;
   }
 
